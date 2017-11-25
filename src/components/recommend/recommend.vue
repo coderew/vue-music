@@ -30,6 +30,7 @@
         },
         created() {
             this._getRecommend()
+//            this._getDiscList()
         },
         methods: {
             _getRecommend() {
@@ -39,6 +40,14 @@
                     }
                 })
             }
+//            ,
+//            _getDiscList() {
+//                getDiscList().then((res) => {
+//                    if (res.code === ERR_OK) {
+//                        console.log(res.data)
+//                    }
+//                })
+//            }
         },
         components: {
             Slider
