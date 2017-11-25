@@ -34,7 +34,6 @@
             },
             _getSingerList() {
                 getSingerList().then((res) => {
-                    console.log(res.code)
                     if (res.code === ERR_OK) {
                         this.singers = this._normalizeSinger(res.data.list)
                     }
