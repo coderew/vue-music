@@ -273,7 +273,7 @@
         },
         watch: {
             currentSong (newSong, oldSong) {
-                if (newSong === oldSong.id) {
+                if (newSong.id === oldSong.id) {
                     return
                 }
                 this.$nextTick(() => {
