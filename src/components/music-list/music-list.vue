@@ -6,7 +6,7 @@
         <h1 class="title" v-html="title"></h1>
         <div class="bg-image" :style="bgStyle" ref="bgImage">
             <div class="play-wrapper">
-                <div class="play" v-show="songs.length>0" ref="playBtn" @click="random">
+                <div ref="playBtn" v-show="songs.length>0" class="play"  @click="random">
                     <i class="icon-play"></i>
                     <span class="text">随机播放全部</span>
                 </div>
@@ -17,7 +17,7 @@
         <scroll :data="songs" @scroll="scroll"
                 :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list">
             <div class="song-list-wrapper">
-                <song-list :rank="rank" @select="selectItem" :songs="songs"></song-list>
+                <song-list  :songs="songs" :rank="rank" @select="selectItem"></song-list>
             </div>
             <div v-show="!songs.length" class="loading-container">
                 <loading></loading>
@@ -28,8 +28,8 @@
 
 <script type="text/ecmascript-6">
     import Scroll from 'base/scroll/scroll'
-    import SongList from 'base/song-list/song-list'
     import Loading from 'base/loading/loading'
+    import SongList from 'base/song-list/song-list'
     import {prefixStyle} from 'common/js/dom'
     import {playlistMixin} from 'common/js/mixin'
     import {mapActions} from 'vuex'
@@ -75,7 +75,7 @@
         mounted() {
             this.imageHeight = this.$refs.bgImage.clientHeight
             this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT
-            this.$refs.list.$el.style.top = `${this.$refs.bgImage.clientHeight}px`
+            this.$refs.list.$el.style.top = `${this.imageHeight}px`
         },
         methods: {
             handlePlayList(playlist) {
@@ -90,6 +90,7 @@
                 this.$router.back()
             },
             selectItem(item, index) {
+                console.log(item)
                 this.selectPlay({
                     list: this.songs,
                     index
@@ -142,8 +143,8 @@
         },
         components: {
             Scroll,
-            SongList,
-            Loading
+            Loading,
+            SongList
         }
     }
 </script>
