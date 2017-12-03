@@ -36,6 +36,35 @@ export function getDiscList() {
     })
 }
 
+// export function getSongList(disstid) {
+//     const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+//     // const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
+//
+//     const data = Object.assign({}, commonParams, {
+//         uin: 0,
+//         format: 'json',
+//         plateform: 'h5',
+//         needNewCode: 1,
+//         new_format: 1,
+//         pic: 500,
+//         disstid,
+//         type: 1,
+//         json: 1,
+//         utf8: 1,
+//         onlysong: 0,
+//         picmid: 1,
+//         nosign: 1,
+//         song_begin: 0,
+//         song_end: 15,
+//         // platform: 'yqq',
+//         // hostUin: 0,
+//         // needNewCode: 0
+//         _: +new Date()
+//     })
+//
+//     return jsonp(url, data, options)
+// }
+
 export function getSongList(disstid) {
     const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
 

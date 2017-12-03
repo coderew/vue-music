@@ -8,7 +8,9 @@ const state = {
     sequencelist: [],
     // 语义化
     mode: playMode.sequence,
-    currentIndex: -1
+    currentIndex: -1,
+    disc: {},
+    topList: []
 }
 
 export default state
