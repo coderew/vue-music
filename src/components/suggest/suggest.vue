@@ -3,7 +3,9 @@
             class="suggest"
             :data="result"
             :pullup="pullup"
-            @scrollToEnd="searchMore">
+            :before="beforeScroll"
+            @scrollToEnd="searchMore"
+            @beforeScroll="listScroll">
         <ul class="suggest-list">
             <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
                 <div class="icon">
@@ -49,6 +51,7 @@
                 page: 1,
                 result: [],
                 pullup: true,
+                beforeScroll: true,
                 hasMore: true
             }
         },
@@ -104,7 +107,9 @@
                     this.insertSong(item)
                 }
             },
-
+            listScroll() {
+                this.$emit('listscr0ll')
+            },
             _getResult(data) {
                 let ret = []
                 if (data.zhida && data.zhida.singerid) {
