@@ -1,5 +1,9 @@
 <template>
-    <div class="suggest">
+    <scroll class="suggest"
+            :data="result"
+            :pullup="pullup"
+            @scrollToEnd="searchMore"
+            ref="suggest">
         <ul class="suggest-list">
             <li class="suggest-item" v-for="item in result">
                 <div class="icon">
@@ -9,16 +13,20 @@
                     <p class="text" v-html="getDisplayName(item)"></p>
                 </div>
             </li>
+            <loading v-show="hasMore" title=""></loading>
         </ul>
-    </div>
+    </scroll>
 </template>
 
 <script type="text/ecmascript-6">
     import {search} from 'api/search'
     import {ERR_OK} from 'api/config'
     import {createSong} from 'common/js/song'
+    import Scroll from 'base/scroll/scroll'
+    import Loading from 'base/loading/loading'
 
     const TYPE_SINGER = 'singer'
+    const PER_PAGE = 20
     export default{
         props: {
             query: {
@@ -33,14 +41,32 @@
         data() {
             return {
                 page: 1,
-                result: []
+                result: [],
+                pullup: true,
+                hasMore: true
             }
         },
         methods: {
             search() {
-                search(this.query, this.page, this.showSinger).then((res) => {
+                this.page = 1
+                this.hasMore = true
+                this.$refs.suggest.scrollTo(0, 0)
+                search(this.query, this.page, this.showSinger, PER_PAGE).then((res) => {
                     if (res.code === ERR_OK) {
                         this.result = this._getResult(res.data)
+                        this._checkMore(res.data)
+                    }
+                })
+            },
+            searchMore() {
+                if (!this.hasMore) {
+                    return
+                }
+                this.page++
+                search(this.query, this.page, this.showSinger, PER_PAGE).then((res) => {
+                    if (res.code === ERR_OK) {
+                        this.result = this.result.concat(this._getResult(res.data))
+                        this._checkMore(res.data)
                     }
                 })
             },
@@ -48,7 +74,7 @@
                 if (item.type === TYPE_SINGER) {
                     return item.singername
                 } else {
-                    return `${item.songname}-${item.singer}`
+                    return `${item.name}-${item.singer}`
                 }
             },
             getIconCls(item) {
@@ -58,6 +84,7 @@
                     return 'icon-music'
                 }
             },
+
             _getResult(data) {
                 let ret = []
                 if (data.zhida && data.zhida.singerid) {
@@ -71,11 +98,17 @@
             _normalizeSongs(list) {
                 let ret = []
                 list.forEach((musicData) => {
-                    if (musicData.songid && createSong.albumid) {
+                    if (musicData.songid && musicData.albummid) {
                         ret.push(createSong(musicData))
                     }
                 })
                 return ret
+            },
+            _checkMore(data) {
+                const song = data.song
+                if (!song.list.length || (song.curnum + song.curpage * PER_PAGE) > song.totalnum) {
+                    this.hasMore = false
+                }
             }
 
         },
@@ -83,6 +116,10 @@
             query() {
                 this.search()
             }
+        },
+        components: {
+            Scroll,
+            Loading
         }
     }
 </script>
