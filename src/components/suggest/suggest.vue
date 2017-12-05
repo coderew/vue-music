@@ -3,7 +3,7 @@
             class="suggest"
             :data="result"
             :pullup="pullup"
-            :before="beforeScroll"
+            :beforeScroll="beforeScroll"
             @scrollToEnd="searchMore"
             @beforeScroll="listScroll">
         <ul class="suggest-list">
@@ -106,6 +106,7 @@
                 } else {
                     this.insertSong(item)
                 }
+                this.$emit('select')
             },
             listScroll() {
                 this.$emit('listscr0ll')
