@@ -94,6 +94,7 @@
                 </div>
             </div>
         </transition>
+        <playlist ref="playlist"></playlist>
         <audio ref='audio' :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime"
                @ended="end"></audio>
     </div>
@@ -109,6 +110,7 @@
     import {shuffle} from 'common/js/util'
     import Lyric from 'lyric-parser'
     import Scroll from 'base/scroll/scroll'
+    import Playlist from 'components/playlist/playlist'
 
     const transform = prefixStyle('transform')
     const transitionDuration = prefixStyle('transitionDuration')
@@ -330,6 +332,9 @@
                 }
                 this.playingLyric = txt
             },
+            showPlaylist() {
+//                this.$refs.playlist.show()
+            },
             middleTouchStart(e) {
                 this.touch.initiated = true
                 // 用来判断是否是一次移动
@@ -449,7 +454,8 @@
         components: {
             ProgressBar,
             ProgressCircle,
-            Scroll
+            Scroll,
+            Playlist
         }
     }
 </script>
