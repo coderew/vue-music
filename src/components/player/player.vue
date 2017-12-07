@@ -89,12 +89,12 @@
                         <i @click.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
                     </progress-circle>
                 </div>
-                <div class="control">
+                <div class="control" @click.stop="showPlaylist">
                     <i class="icon-playlist"></i>
                 </div>
             </div>
         </transition>
-        <playlist ref="playlist"></playlist>
+        <playlist ref="playList"></playlist>
         <audio ref='audio' :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime"
                @ended="end"></audio>
     </div>
@@ -333,7 +333,7 @@
                 this.playingLyric = txt
             },
             showPlaylist() {
-//                this.$refs.playlist.show()
+                this.$refs.playList.show()
             },
             middleTouchStart(e) {
                 this.touch.initiated = true
@@ -432,6 +432,9 @@
         },
         watch: {
             currentSong (newSong, oldSong) {
+                if (!newSong.id) {
+                    return
+                }
                 if (newSong.id === oldSong.id) {
                     return
                 }
