@@ -4,7 +4,7 @@
             <div class="list-wrapper" @click.stop>
                 <div class="list-header">
                     <h1 class="title">
-                        <i class="icon"></i>
+                        <i class="icon" :class="iconMode"></i>
                         <span class="text"></span>
                         <span class="clear" @click="showConfirm"><i class="icon-clear"></i></span>
                     </h1>
@@ -38,15 +38,15 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import {mapActions} from 'vuex'
     import {playMode} from 'common/js/config'
     import Scroll from 'base/scroll/scroll'
     import Confirm from 'base/confirm/confirm'
     //    import AddSong from 'components/add-song/add-song'
-    //    import {playerMixin} from 'common/js/mixin'
+    import {playerMixin} from 'common/js/mixin'
 
     export default {
-//        mixins: [playerMixin],
+        mixins: [playerMixin],
         data() {
             return {
                 showFlag: false
@@ -57,12 +57,12 @@
 //            modeText() {
 //                return this.mode === playMode.sequence ? '顺序播放' : this.mode === playMode.random ? '随机播放' : '单曲循环'
 //            }
-            ...mapGetters([
-                'sequencelist',
-                'currentSong',
-                'playlist',
-                'mode'
-            ])
+//            ...mapGetters([
+//                'sequencelist',
+//                'currentSong',
+//                'playlist',
+//                'mode'
+//            ])
         },
         methods: {
             show() {
@@ -115,10 +115,11 @@
             ...mapActions([
                 'deleteSong',
                 'deleteSongList'
-            ]),
-            ...mapMutations({
-                'seCurrentIndex': 'SET_CURRENT_INDEX'
-            })
+            ])
+//            ,
+//            ...mapMutations({
+//                'seCurrentIndex': 'SET_CURRENT_INDEX'
+//            })
         },
         watch: {
             currentSong(newSong, oldSong) {
