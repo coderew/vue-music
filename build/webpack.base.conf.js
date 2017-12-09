@@ -7,7 +7,10 @@ const vueLoaderConfig = require('./vue-loader.conf')
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
-
+/**
+ * 修改版本号后直接npm install
+ *和vue版本要一致
+ */
 module.exports = {
     context: path.resolve(__dirname, '../'),
     entry: {

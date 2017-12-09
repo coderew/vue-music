@@ -9,6 +9,9 @@ import router from './router'
 import store from './store'
 
 import 'src/common/stylus/index.styl'
+/*  eslint-disable no-unused-vars */
+import VConsole from 'vconsole'
+console.log('test')
 
 fastclick.attach(document.body)
 Vue.use(VueLazyload, {

@@ -3,7 +3,6 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-
 /**
  *
  *  code splitting  app.js打包后体积减小
