@@ -311,6 +311,7 @@
 //            },
             getLyric() {
                 this.currentSong.getLyric().then((lyric) => {
+                    // 快切换
                     if (this.currentSong.lyric !== lyric) {
                         return
                     }
@@ -443,7 +444,9 @@
                     // 切歌曲
                     this.currentLyric.stop()
                 }
-                setTimeout(() => {
+                // 快切换歌曲
+                clearTimeout(this.timer)
+                this.timer = setTimeout(() => {
                     this.$refs.audio.play()
                     this.getLyric()
                 }, 1000)
