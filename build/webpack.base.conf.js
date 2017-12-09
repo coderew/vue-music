@@ -13,6 +13,9 @@ module.exports = {
     entry: {
         app: './src/main.js'
     },
+    /**
+     * 打包public path(cdn) 可以参考webpack
+     */
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',
