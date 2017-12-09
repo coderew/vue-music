@@ -11,26 +11,23 @@
                 <search-box ref="searchBox" @query="onQueryChange" placeholder="搜索歌曲"></search-box>
             </div>
             <div class="shortcut" v-show="!query">
-                <!--<switches :switches="switches" :currentIndex="currentIndex" @switch="switchItem"></switches>-->
+                <switches :switches="switches" :currentIndex="currentIndex" @switch="switchItem"></switches>
                 <div class="list-wrapper">
-                    <scroll ref="songList" v-if="currentIndex===0" class="list-scroll" :data="playHistory">
+                    <scroll ref="songList" v-if="currentIndex === 0" class="list-scroll" :data="playHistory">
                         <div class="list-inner">
                             <song-list :songs="playHistory" @select="selectSong">
                             </song-list>
                         </div>
                     </scroll>
-                    <scroll :refreshDelay="refreshDelay" ref="searchList" v-if="currentIndex===1" class="list-scroll"
-                            :data="searchHistory">
+                    <scroll ref="searchList" :refreshDelay="refreshDelay" v-if="currentIndex === 1" class="list-scroll">
                         <div class="list-inner">
-                            <search-list @delete="deleteSearchHistory" @select="addQuery"
-                                         :searches="searchHistory"></search-list>
+                            <search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
                         </div>
                     </scroll>
                 </div>
             </div>
             <div class="search-result" v-show="query">
-                <suggest :query="query" :showSinger="showSinger" @select="selectSuggest"
-                         @listScroll="blurInput"></suggest>
+                <suggest :query="query" :showSinger="showSinger" @select="selectSuggest" @listScroll="blurInput"></suggest>
             </div>
             <top-tip ref="topTip">
                 <div class="tip-title">
@@ -47,7 +44,7 @@
     import SongList from 'base/song-list/song-list'
     import SearchList from 'base/search-list/search-list'
     import Scroll from 'base/scroll/scroll'
-//    import Switches from 'base/switches/switches'
+    import Switches from 'base/switches/switches'
     import TopTip from 'base/top-tip/top-tip'
     import Suggest from 'components/suggest/suggest'
     import {searchMixin} from 'common/js/mixin'
@@ -61,7 +58,7 @@
                 showFlag: false,
                 showSinger: false,
                 currentIndex: 0,
-                songs: [],
+//                songs: [],
                 switches: [
                     {
                         name: '最近播放'
@@ -113,7 +110,7 @@
             SongList,
             SearchList,
             Scroll,
-//            Switches,
+            Switches,
             TopTip,
             Suggest
         }

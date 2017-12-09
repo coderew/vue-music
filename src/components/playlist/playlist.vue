@@ -4,25 +4,26 @@
             <div class="list-wrapper" @click.stop>
                 <div class="list-header">
                     <h1 class="title">
-                        <i class="icon" :class="iconMode"></i>
-                        <span class="text"></span>
+                        <i class="icon" :class="iconMode" @click="changeMode"></i>
+                        <span class="text">{{modeText}}</span>
                         <span class="clear" @click="showConfirm"><i class="icon-clear"></i></span>
                     </h1>
                 </div>
-                <scroll ref="listContent" :data="sequencelist" class="list-content">
+                <scroll ref="listContent" :refreshDelay="refreshDelay" :data="sequencelist" class="list-content">
                     <transition-group ref="list" name="list" tag="ul">
-                        <li :key="item.id" class="item" ref="listItem" v-for="(item, index) in sequencelist" @click="selectItem(item, index)">
+                        <li :key="item.id" class="item" ref="listItem" v-for="(item, index) in sequencelist"
+                            @click="selectItem(item, index)">
                             <i class="current" :class="getCurrentIcon(item)"></i>
                             <span class="text">{{item.name}}</span>
                             <span class="like"><i class="icon-favorite"></i></span>
-                            <span class="delete" @click="deleteOne(item)">
+                            <span @click.stop="deleteOne(item)" class="delete">
                                 <i class="icon-delete"></i>
                             </span>
                         </li>
                     </transition-group>
                 </scroll>
                 <div class="list-operate">
-                    <div class="add">
+                    <div @click="addSong" class="add">
                         <i class="icon-add"></i>
                         <span class="text">添加歌曲到队列</span>
                     </div>
@@ -32,7 +33,7 @@
                 </div>
             </div>
             <confirm ref="confirm" @confirm="confirmClear" text="是否清空播放列表" confirmBtnText="清空"></confirm>
-            <!--<add-song ref="addSong"></add-song>-->
+            <add-song ref="addSong"></add-song>
         </div>
     </transition>
 </template>
@@ -42,27 +43,21 @@
     import {playMode} from 'common/js/config'
     import Scroll from 'base/scroll/scroll'
     import Confirm from 'base/confirm/confirm'
-    //    import AddSong from 'components/add-song/add-song'
+    import AddSong from 'components/add-song/add-song'
     import {playerMixin} from 'common/js/mixin'
 
     export default {
         mixins: [playerMixin],
         data() {
             return {
-                showFlag: false
-//                refreshDelay: 120
+                showFlag: false,
+                refreshDelay: 120
             }
         },
         computed: {
-//            modeText() {
-//                return this.mode === playMode.sequence ? '顺序播放' : this.mode === playMode.random ? '随机播放' : '单曲循环'
-//            }
-//            ...mapGetters([
-//                'sequencelist',
-//                'currentSong',
-//                'playlist',
-//                'mode'
-//            ])
+            modeText() {
+                return this.mode === playMode.sequence ? '顺序播放' : this.mode === playMode.random ? '随机播放' : '单曲循环'
+            }
         },
         methods: {
             show() {
@@ -98,10 +93,14 @@
                 this.setPlayingState(true)
             },
             scrollToCurrent(current) {
+                if(!this.sequenceList) {
+                    return
+                }
                 const index = this.sequenceList.findIndex((song) => {
                     return current.id === song.id
                 })
-                this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 300)
+//                this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 300)
+                this.$refs.listContent.scrollToElement(this.$refs.list.$el.children[index], 300)
             },
             deleteOne(item) {
                 this.deleteSong(item)
@@ -109,17 +108,13 @@
                     this.hide()
                 }
             },
-//            addSong() {
-//                this.$refs.addSong.show()
-//            },
+            addSong() {
+                this.$refs.addSong.show()
+            },
             ...mapActions([
                 'deleteSong',
                 'deleteSongList'
             ])
-//            ,
-//            ...mapMutations({
-//                'seCurrentIndex': 'SET_CURRENT_INDEX'
-//            })
         },
         watch: {
             currentSong(newSong, oldSong) {
@@ -133,8 +128,8 @@
         },
         components: {
             Scroll,
-            Confirm
-//            AddSong
+            Confirm,
+            AddSong
         }
     }
 </script>
