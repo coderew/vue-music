@@ -15,7 +15,7 @@
                             @click="selectItem(item, index)">
                             <i class="current" :class="getCurrentIcon(item)"></i>
                             <span class="text">{{item.name}}</span>
-                            <span class="like"><i class="icon-favorite"></i></span>
+                            <span @click.stop="toggleFavorite(item)" class="like"><i :class="getFavoriteIcon(item)"></i></span>
                             <span @click.stop="deleteOne(item)" class="delete">
                                 <i class="icon-delete"></i>
                             </span>
@@ -93,7 +93,7 @@
                 this.setPlayingState(true)
             },
             scrollToCurrent(current) {
-                if(!this.sequenceList) {
+                if (!this.sequenceList) {
                     return
                 }
                 const index = this.sequenceList.findIndex((song) => {
